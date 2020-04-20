@@ -1,7 +1,7 @@
 import { BotDeclaration, MessageExtensionDeclaration, PreventIframe } from "express-msteams-host";
 import * as debug from "debug";
-import { DialogSet, DialogState, TextPrompt } from "botbuilder-dialogs";
-import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler } from "botbuilder";
+import { DialogSet, DialogState, TextPrompt, DialogTurnStatus } from "botbuilder-dialogs";
+import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory, ContactRelationUpdateActionTypes } from "botbuilder";
 import HelpDialog from "./dialogs/HelpDialog";
 import AbrirTicketDialog from "./dialogs/AbrirTicketDialog";
 import ObterTicketsDialog from "./dialogs/ObterTickets";
@@ -41,10 +41,12 @@ export class ServicenowBot extends TeamsActivityHandler {
         this.dialogs.add(new ObterTicketDialog("obter_ticket"));
         
 
-        this.onTurn(async (context: TurnContext): Promise<void> => {   
+        this.onMessage(async (context: TurnContext): Promise<void> => {   
 
             const dc = await this.dialogs.createContext(context);
-            await dc.continueDialog();
+            const results = await dc.continueDialog();
+
+            if (results.status === DialogTurnStatus.empty) {
 
             // TODO: add your own bot logic in here
             switch (context.activity.type) {
@@ -63,12 +65,14 @@ export class ServicenowBot extends TeamsActivityHandler {
                     }  else if (text.startsWith("obter ticket")) {
                         await dc.beginDialog("obter_ticket");
                     }  else {
-                         // await context.sendActivity(`I\'m terribly sorry, but my master hasn\'t trained me to do anything yet...`);
+                        const message = MessageFactory.suggestedActions(['abrir ticket', 'obter tickets', 'obter ticket'], `Desculpe, não entendi, mas posso te ajudar com as seguintes ações:`);
+                        await context.sendActivity(message);
                     }
                     break;
                 default:
                     break;
             }
+        }
             // Save state changes
             return this.conversationState.saveChanges(context);
         });
@@ -77,15 +81,44 @@ export class ServicenowBot extends TeamsActivityHandler {
             if (context.activity.membersAdded && context.activity.membersAdded.length !== 0) {
                 for (const idx in context.activity.membersAdded) {
                     if (context.activity.membersAdded[idx].id === context.activity.recipient.id) {
-                        const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
-                        await context.sendActivity({ attachments: [welcomeCard] });
+
+                        let imgLink = "https://www.mpmit.co.uk/WP/wp-content/uploads/2018/08/Microsoft_Teams_logo.png";
+
+                        const message = MessageFactory.carousel([
+                            CardFactory.heroCard('Abrir ticket', [imgLink], [{
+                                type: 'openUrl',
+                                title: 'Get started',
+                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                            }]),
+                            CardFactory.heroCard('Obter Ticket', [imgLink], [{
+                                type: 'openUrl',
+                                title: 'Get started',
+                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                            }]),
+                            CardFactory.heroCard('Obter Ticket', [imgLink], [{
+                                type: 'openUrl',
+                                title: 'Get started',
+                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                            }])
+                        ])
+                        // const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
+                        // await context.sendActivity({ attachments: [welcomeCard] });
+                        await context.sendActivity( message );
                     }
                 }
             }
         });
 
-        this.onMessageReaction(async (context: TurnContext): Promise<void> => {
+        this.onReactionsAdded(async (context: TurnContext): Promise<void> => {
             const added = context.activity.reactionsAdded;
+
+            // const message = MessageFactory.list([
+            //     CardFactory.heroCard('title1', ['imageUrl1'], ['button1']),
+            //     CardFactory.heroCard('title2', ['imageUrl2'], ['button2'])
+            // ]);
+
+            // await context.sendActivity(message); 
+
             if (added && added[0]) {
                 await context.sendActivity({
                     textFormat: "xml",
