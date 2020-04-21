@@ -1,5 +1,5 @@
 import { Dialog, DialogContext, DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext, ChoiceFactory, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
-import { ActionTypes, ActivityTypes } from "botbuilder";
+import { ActionTypes, ActivityTypes, CardFactory } from "botbuilder";
 
 const axios = require('axios');
 const qs = require('qs');
@@ -58,7 +58,90 @@ export default class AbrirTicketDialog extends ComponentDialog {
             }
         });
 
-        await stepContext.context.sendActivity(`Ticket ${ticketsListPostRequest.data.result.number} criado com sucesso`);
+        let ticketCard = CardFactory.adaptiveCard(
+            {
+                "type": "AdaptiveCard",
+                "body": [
+                    {
+                        "type": "TextBlock",
+                        "size": "Medium",
+                        "weight": "Bolder",
+                        "text": "Ticket Description"
+                    },
+                    {
+                        "type": "ColumnSet",
+                        "columns": [
+                            {
+                                "type": "Column",
+                                "items": [
+                                    {
+                                        "type": "Image",
+                                        "altText": "",
+                                        "url": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+                                        "horizontalAlignment": "Left",
+                                        "size": "Medium"
+                                    }
+                                ],
+                                "width": "auto"
+                            },
+                            {
+                                "type": "Column",
+                                "items": [
+                                    {
+                                        "type": "TextBlock",
+                                        "weight": "Bolder",
+                                        "text": ticketsListPostRequest.data.result.number,
+                                        "wrap": true
+                                    },
+                                    {
+                                        "type": "TextBlock",
+                                        "spacing": "None",
+                                        "text": `Created ${ ticketsListPostRequest.data.result.opened_at }`,
+                                        "isSubtle": true,
+                                        "wrap": true
+                                    }
+                                ],
+                                "width": "stretch"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "TextBlock",
+                        "text": ticketsListPostRequest.data.result.short_description
+                    },
+                    {
+                        "type": "FactSet",
+                        "facts": [
+                            {
+                                "title": "Number",
+                                "value": ticketsListPostRequest.data.result.number
+                            },
+                            {
+                                "title": "Importance",
+                                "value": ticketsListPostRequest.data.result.urgency
+                            },
+                            {
+                                "title": "SysID",
+                                "value": ticketsListPostRequest.data.result.sys_id
+                            }
+                        ]
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "Action.OpenUrl",
+                        "title": "Abrir",
+                        "url": `https://dev88189.service-now.com/nav_to.do?uri=incident.do?sys_id=${ticketsListPostRequest.data.result.sys_id}`
+                    }
+                ],
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                "version": "1.0"
+            }
+        );
+
+        await stepContext.context.sendActivity({ attachments: [ticketCard] } );
+
+        // await stepContext.context.sendActivity(`Ticket ${ticketsListPostRequest.data.result.number} criado com sucesso`);
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😜");
         return await stepContext.endDialog();
     }

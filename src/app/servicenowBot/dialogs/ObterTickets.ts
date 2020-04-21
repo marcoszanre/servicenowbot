@@ -55,7 +55,7 @@ export default class ObterTicketsDialog extends ComponentDialog {
                 type: 'resultItem',
                 icon: 'https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png',
                 title: ticketList.number,
-                subtitle: ticketList.number,
+                subtitle: `${ticketList.short_description}`,
                 tap: {
                     type: 'openUrl',
                     value: 'https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do'
@@ -74,9 +74,9 @@ export default class ObterTicketsDialog extends ComponentDialog {
               "items": ${myItems},
               "buttons": [
                 {
-                    "type": "imBack",
-                    "title": "Select",
-                    "value": "whois"
+                    "type": "openUrl",
+                    "title": "Abrir ServiceNow",
+                    "value": "https://dev88189.service-now.com/incident_list.do"
                 }
               ]
             }
