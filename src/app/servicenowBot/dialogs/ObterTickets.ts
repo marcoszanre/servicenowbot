@@ -67,7 +67,7 @@ export default class ObterTicketsDialog extends ComponentDialog {
         let myItems = JSON.stringify(items).toString();
         // console.log(JSON.stringify(items).toString());
 
-        let myCard = `{
+        let myCard: Attachment = JSON.parse(`{
             "contentType": "application/vnd.microsoft.teams.card.list",
             "content": {
               "title": "Seus tickets",
@@ -80,94 +80,10 @@ export default class ObterTicketsDialog extends ComponentDialog {
                 }
               ]
             }
-        }`;
+        }`);
 
-        const customCard: Attachment = {
-            contentType: "application/vnd.microsoft.teams.card.list",
-            content: `"title": "Seus tickets",
-            "items": ${myItems},
-            "buttons": [
-              {
-                  "type": "imBack",
-                  "title": "Select",
-                  "value": "whois"
-              }
-            ]`
-        }
 
-        const customCard2: Attachment = {
-            contentType: "application/vnd.microsoft.teams.card.list",
-            content: `{"title": "Seus tickets",
-            "items": ${myItems},
-            "buttons": [
-              {
-                  "type": "imBack",
-                  "title": "Select",
-                  "value": "whois"
-              }
-            ]}`
-        }
-
-        // console.log(myCard);
-
-        // let cardAttachment: Attachment = JSON.parse(myCard);
-
-        // console.log(myCard);
-
-        // let cardAttachment: Attachment = JSON.parse(myCard);
-        
-        let msg = CardFactory.adaptiveCard(
-            {
-                "contentType": "application/vnd.microsoft.teams.card.list",
-                "content": {
-                  "title": "Card title",
-                  "items": [
-                    {
-                      "type": "file",
-                      "id": "https://contoso.sharepoint.com/teams/new/Shared%20Documents/Report.xlsx",
-                      "title": "Report",
-                      "subtitle": "teams > new > design",
-                      "tap": {
-                        "type": "imBack",
-                        "value": "editOnline https://contoso.sharepoint.com/teams/new/Shared%20Documents/Report.xlsx"
-                      }
-                    },
-                    {
-                      "type": "resultItem",
-                      "icon": "https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Trello-128.png",
-                      "title": "Trello title",
-                      "subtitle": "A Trello subtitle",
-                      "tap": {
-                        "type": "openUrl",
-                        "value": "http://trello.com"
-                      }
-                    },
-                    {
-                      "type": "section",
-                      "title": "Manager"
-                    },
-                    {
-                      "type": "person",
-                      "id": "JohnDoe@contoso.com",
-                      "title": "John Doe",
-                      "subtitle": "Manager",
-                      "tap": {
-                        "type": "imBack",
-                        "value": "whois JohnDoe@contoso.com"
-                      }
-                    }
-                  ],
-                  "buttons": [
-                    {
-                      "type": "imBack",
-                      "title": "Select",
-                      "value": "whois"
-                    }
-                  ]
-                }
-              }
-        );
-        await stepContext.context.sendActivity({ attachments: [msg] });
+        await stepContext.context.sendActivity({ attachments: [myCard] });
 
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😎");
         return await stepContext.endDialog();
