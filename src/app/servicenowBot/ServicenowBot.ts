@@ -65,7 +65,15 @@ export class ServicenowBot extends TeamsActivityHandler {
                     }  else if (text.startsWith("obter ticket")) {
                         await dc.beginDialog("obter_ticket");
                     }  else {
-                        const message = MessageFactory.suggestedActions(['abrir ticket', 'obter tickets', 'obter ticket'], `Desculpe, não entendi, mas posso te ajudar com as seguintes ações:`);
+                        const message = MessageFactory.attachment(
+                            CardFactory.heroCard(
+                                'Coisas que sei fazer 😀',
+                                [],
+                                ['abrir ticket','obter ticket','obter tickets']
+                             )
+                        );
+
+                        // const message = MessageFactory.suggestedActions(['abrir ticket', 'obter tickets', 'obter ticket'], `Desculpe, não entendi, mas posso te ajudar com as seguintes ações:`);
                         await context.sendActivity(message);
                     }
                     break;
