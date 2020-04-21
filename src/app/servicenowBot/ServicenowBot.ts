@@ -65,6 +65,7 @@ export class ServicenowBot extends TeamsActivityHandler {
                     }  else if (text.startsWith("obter ticket")) {
                         await dc.beginDialog("obter_ticket");
                     }  else {
+
                         const message = MessageFactory.attachment(
                             CardFactory.heroCard(
                                 'Coisas que sei fazer 😀',

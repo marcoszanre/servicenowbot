@@ -47,12 +47,13 @@ export default class ObterTicketsDialog extends ComponentDialog {
 
 
         const ticketsList = ticketsListGetRequest.data.result;
+        // console.log(ticketsList);
 
         var items: Array<any> = [];
         ticketsList.forEach(async ticketList => {
             let obj = {
-                type: "resultItem",
-                icon: "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+                type: 'resultItem',
+                icon: 'https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png',
                 title: ticketList.number,
                 subtitle: ticketList.number,
                 tap: {
@@ -64,24 +65,108 @@ export default class ObterTicketsDialog extends ComponentDialog {
         });
 
         let myItems = JSON.stringify(items).toString();
-        console.log(JSON.stringify(items).toString());
+        // console.log(JSON.stringify(items).toString());
 
-        let myCard =  `{
-            'contentType': 'application/vnd.microsoft.teams.card.list',
-            'content': {
-              'title': 'Card title',
-              'items': ${myItems},
-              'buttons': [
+        let myCard = `{
+            "contentType": "application/vnd.microsoft.teams.card.list",
+            "content": {
+              "title": "Seus tickets",
+              "items": ${myItems},
+              "buttons": [
                 {
-                  'type': 'imBack',
-                  'title': 'Select',
-                  'value': 'whois'
+                    "type": "imBack",
+                    "title": "Select",
+                    "value": "whois"
                 }
               ]
             }
         }`;
+
+        const customCard: Attachment = {
+            contentType: "application/vnd.microsoft.teams.card.list",
+            content: `"title": "Seus tickets",
+            "items": ${myItems},
+            "buttons": [
+              {
+                  "type": "imBack",
+                  "title": "Select",
+                  "value": "whois"
+              }
+            ]`
+        }
+
+        const customCard2: Attachment = {
+            contentType: "application/vnd.microsoft.teams.card.list",
+            content: `{"title": "Seus tickets",
+            "items": ${myItems},
+            "buttons": [
+              {
+                  "type": "imBack",
+                  "title": "Select",
+                  "value": "whois"
+              }
+            ]}`
+        }
+
+        // console.log(myCard);
+
+        // let cardAttachment: Attachment = JSON.parse(myCard);
+
+        // console.log(myCard);
+
+        // let cardAttachment: Attachment = JSON.parse(myCard);
         
-        let msg = CardFactory.adaptiveCard(myItems);
+        let msg = CardFactory.adaptiveCard(
+            {
+                "contentType": "application/vnd.microsoft.teams.card.list",
+                "content": {
+                  "title": "Card title",
+                  "items": [
+                    {
+                      "type": "file",
+                      "id": "https://contoso.sharepoint.com/teams/new/Shared%20Documents/Report.xlsx",
+                      "title": "Report",
+                      "subtitle": "teams > new > design",
+                      "tap": {
+                        "type": "imBack",
+                        "value": "editOnline https://contoso.sharepoint.com/teams/new/Shared%20Documents/Report.xlsx"
+                      }
+                    },
+                    {
+                      "type": "resultItem",
+                      "icon": "https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Trello-128.png",
+                      "title": "Trello title",
+                      "subtitle": "A Trello subtitle",
+                      "tap": {
+                        "type": "openUrl",
+                        "value": "http://trello.com"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "title": "Manager"
+                    },
+                    {
+                      "type": "person",
+                      "id": "JohnDoe@contoso.com",
+                      "title": "John Doe",
+                      "subtitle": "Manager",
+                      "tap": {
+                        "type": "imBack",
+                        "value": "whois JohnDoe@contoso.com"
+                      }
+                    }
+                  ],
+                  "buttons": [
+                    {
+                      "type": "imBack",
+                      "title": "Select",
+                      "value": "whois"
+                    }
+                  ]
+                }
+              }
+        );
         await stepContext.context.sendActivity({ attachments: [msg] });
 
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😎");

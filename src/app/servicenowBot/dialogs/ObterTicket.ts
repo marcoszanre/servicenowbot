@@ -38,7 +38,18 @@ export default class ObterTicketDialog extends ComponentDialog {
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
         await stepContext.context.sendActivity( "Segue abaixo seu ticket:" );
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
-        const ticket = await axios.get("https://prod-23.brazilsouth.logic.azure.com:443/workflows/b18e56cd7530482ba7fc0142f0bb69c1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XGPeSxqNZdeVU7_ofsQcge3CPjaRMC4w3ACdgV9cll8");
+        // const ticket = await axios.get("https://prod-23.brazilsouth.logic.azure.com:443/workflows/b18e56cd7530482ba7fc0142f0bb69c1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XGPeSxqNZdeVU7_ofsQcge3CPjaRMC4w3ACdgV9cll8");
+
+        const ticket = await axios.get(
+            'https://dev88189.service-now.com/api/now/v2/table/incident?sysparm_limit=5',
+            {
+                headers: {
+                    "Accept":"application/json",
+                    "Content-Type":"application/json",
+                    "Authorization": (
+                        "Basic " + Buffer.from("admin:Office365").toString('base64')
+                    )}
+        });
         
         // console.log(ticket);
 

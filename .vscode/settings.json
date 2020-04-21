@@ -1,4 +1,4 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/f4b5f80b-2ecc-4f37-a6a6-0ac4e523e46e/resourceGroups/RG-BOTS/providers/Microsoft.Web/sites/servicenowzanre",
-    "appService.deploySubpath": ""
+    "appService.deploySubpath": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/f4b5f80b-2ecc-4f37-a6a6-0ac4e523e46e/resourceGroups/RG-ServiceNowBot/providers/Microsoft.Web/sites/servicenowbotzanre"
 }

@@ -1,0 +1,57 @@
+{
+	"contentType": "application/vnd.microsoft.teams.card.list",
+	"content": {
+		"title": "Seus tickets",
+		"items": [{
+			"type": "resultItem",
+			"icon": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+			"title": "INC0000060",
+			"subtitle": "INC0000060",
+			"tap": {
+				"type": "openUrl",
+				"value": "https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do"
+			}
+		}, {
+			"type": "resultItem",
+			"icon": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+			"title": "INC0009002",
+			"subtitle": "INC0009002",
+			"tap": {
+				"type": "openUrl",
+				"value": "https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do"
+			}
+		}, {
+			"type": "resultItem",
+			"icon": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+			"title": "INC0000009",
+			"subtitle": "INC0000009",
+			"tap": {
+				"type": "openUrl",
+				"value": "https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do"
+			}
+		}, {
+			"type": "resultItem",
+			"icon": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+			"title": "INC0000010",
+			"subtitle": "INC0000010",
+			"tap": {
+				"type": "openUrl",
+				"value": "https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do"
+			}
+		}, {
+			"type": "resultItem",
+			"icon": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+			"title": "INC0000011",
+			"subtitle": "INC0000011",
+			"tap": {
+				"type": "openUrl",
+				"value": "https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do"
+			}
+		}],
+		"buttons": [{
+			"type": "imBack",
+			"title": "Select",
+			"value": "whois"
+		}]
+	}
+}
