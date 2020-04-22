@@ -26,12 +26,12 @@ export default class ObterTicketDialog extends ComponentDialog {
 
     async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {    
         await stepContext.context.sendActivities([{type:  ActivityTypes.Typing}]);    
-        return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de ver seus ticket?');
+        return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de ver seu ticket?');
     }
 
     async ticketPromptStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {    
         await stepContext.context.sendActivities([{type:  ActivityTypes.Typing}]);    
-        return await stepContext.prompt(TEXT_PROMPT, 'Qual o número do seu ticket? (ex: INC0010031)');
+        return await stepContext.prompt(TEXT_PROMPT, 'Qual o número do seu ticket? (ex: INC0000009)');
     }
 
     async responseStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {

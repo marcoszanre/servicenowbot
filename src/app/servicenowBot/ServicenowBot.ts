@@ -91,10 +91,8 @@ export class ServicenowBot extends TeamsActivityHandler {
                 for (const idx in context.activity.membersAdded) {
                     if (context.activity.membersAdded[idx].id === context.activity.recipient.id) {
 
-                        let imgLink = "https://www.mpmit.co.uk/WP/wp-content/uploads/2018/08/Microsoft_Teams_logo.png";
-
                         const message = MessageFactory.carousel([
-                            CardFactory.heroCard('Teams Bots', ['https://miro.medium.com/max/344/0*whjpDs3UJnoaspYY.png'], [{
+                            CardFactory.heroCard('Teams Bots', ['https://www.mpmit.co.uk/WP/wp-content/uploads/2018/08/Microsoft_Teams_logo.png'], [{
                                 type: 'openUrl',
                                 title: 'Bot Framework',
                                 value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots'
@@ -104,7 +102,7 @@ export class ServicenowBot extends TeamsActivityHandler {
                                 title: 'Service Now',
                                 value: 'https://developer.servicenow.com/dev.do'
                             }]),
-                            CardFactory.heroCard('Microsoft Teams', [imgLink], [{
+                            CardFactory.heroCard('Microsoft Teams', ['https://www.mpmit.co.uk/WP/wp-content/uploads/2018/08/Microsoft_Teams_logo.png'], [{
                                 type: 'openUrl',
                                 title: 'Dev Platform',
                                 value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/'
@@ -131,7 +129,7 @@ export class ServicenowBot extends TeamsActivityHandler {
             if (added && added[0]) {
                 await context.sendActivity({
                     textFormat: "xml",
-                    text: `That was an interesting reaction (<b>${added[0].type}</b>)`
+                    text: `😎 eu gostei da reação (<b>${added[0].type}</b>)`
                 });
             }
         });;
