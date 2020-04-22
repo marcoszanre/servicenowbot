@@ -44,6 +44,11 @@ export class ServicenowBot extends TeamsActivityHandler {
         this.onMessage(async (context: TurnContext): Promise<void> => {   
 
             const dc = await this.dialogs.createContext(context);
+
+            if (context.activity.text.startsWith("cancelar")) {
+                await dc.cancelAllDialogs();
+            }
+
             const results = await dc.continueDialog();
 
             if (results.status === DialogTurnStatus.empty) {

@@ -24,7 +24,8 @@ export default class ObterTicketDialog extends ComponentDialog {
  
     }
 
-    async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {    
+    async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> { 
+        await stepContext.context.sendActivity("Envie cancelar a qualquer momento para retornar ao início, ok? ✔");   
         await stepContext.context.sendActivities([{type:  ActivityTypes.Typing}]);    
         return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de ver seu ticket?');
     }

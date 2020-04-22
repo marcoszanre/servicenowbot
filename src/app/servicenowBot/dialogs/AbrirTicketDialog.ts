@@ -23,7 +23,8 @@ export default class AbrirTicketDialog extends ComponentDialog {
  
     }
 
-    async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {    
+    async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {  
+        await stepContext.context.sendActivity("Envie cancelar a qualquer momento para retornar ao início, ok? ✔");  
         return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de abrir um ticket?');
     }
 
