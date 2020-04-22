@@ -1,7 +1,7 @@
 import { BotDeclaration, MessageExtensionDeclaration, PreventIframe } from "express-msteams-host";
 import * as debug from "debug";
 import { DialogSet, DialogState, TextPrompt, DialogTurnStatus } from "botbuilder-dialogs";
-import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory, ContactRelationUpdateActionTypes } from "botbuilder";
+import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory, ContactRelationUpdateActionTypes, MessageReactionTypes } from "botbuilder";
 import HelpDialog from "./dialogs/HelpDialog";
 import AbrirTicketDialog from "./dialogs/AbrirTicketDialog";
 import ObterTicketsDialog from "./dialogs/ObterTickets";
@@ -94,20 +94,20 @@ export class ServicenowBot extends TeamsActivityHandler {
                         let imgLink = "https://www.mpmit.co.uk/WP/wp-content/uploads/2018/08/Microsoft_Teams_logo.png";
 
                         const message = MessageFactory.carousel([
-                            CardFactory.heroCard('Abrir ticket', [imgLink], [{
+                            CardFactory.heroCard('Teams Bots', ['https://miro.medium.com/max/344/0*whjpDs3UJnoaspYY.png'], [{
                                 type: 'openUrl',
-                                title: 'Get started',
-                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                                title: 'Bot Framework',
+                                value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots'
                             }]),
-                            CardFactory.heroCard('Obter Ticket', [imgLink], [{
+                            CardFactory.heroCard('Service Now', ['https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png'], [{
                                 type: 'openUrl',
-                                title: 'Get started',
-                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                                title: 'Service Now',
+                                value: 'https://developer.servicenow.com/dev.do'
                             }]),
-                            CardFactory.heroCard('Obter Ticket', [imgLink], [{
+                            CardFactory.heroCard('Microsoft Teams', [imgLink], [{
                                 type: 'openUrl',
-                                title: 'Get started',
-                                value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
+                                title: 'Dev Platform',
+                                value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/'
                             }])
                         ])
                         // const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);

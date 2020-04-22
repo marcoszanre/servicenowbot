@@ -58,7 +58,7 @@ export default class ObterTicketsDialog extends ComponentDialog {
                 subtitle: `${ticketList.short_description}`,
                 tap: {
                     type: 'openUrl',
-                    value: 'https://dev88189.service-now.com/nav_to.do?uri=%2F$restapi.do'
+                    value: `https://dev88189.service-now.com/nav_to.do?uri=incident.do?sys_id=${ticketList.sys_id}`
                 }
             }
             items.push(obj);
