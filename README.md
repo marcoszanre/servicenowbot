@@ -6,7 +6,7 @@ This is a sample app that connects to the Service Now REST APIs through a webser
 - List existing tickets where user is the Caller
 - Get a single ticket by Number
 
-** This sample code is provided as is. **
+**This sample code is provided as is**
 
 ## What to know about this sample
 
