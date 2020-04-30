@@ -95,7 +95,7 @@ export class ServicenowBot extends TeamsActivityHandler {
                         
                         const member = await TeamsInfo.getMembers(context);
                         member.forEach(async element => {
-                            await dc.context.sendActivity( member.toString() );
+                            await dc.context.sendActivity( JSON.stringify(member).toString() );
                         });
                         
 
