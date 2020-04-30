@@ -27,17 +27,6 @@ export default class ObterTicketsDialog extends ComponentDialog {
         await stepContext.context.sendActivity("Envie 'cancelar' a qualquer momento para retornar ao início, ok? ✔");   
         await stepContext.context.sendActivities([{type:  ActivityTypes.Typing}]);    
 
-        let members = await TeamsInfo.getMembers(stepContext.context);
-        if (members[0].userPrincipalName) {
-            await stepContext.context.sendActivity( members[0].userPrincipalName );
-        }
-
-        if (members[0].email) {
-            await stepContext.context.sendActivity( members[0].email );
-        }
-
-        
-
         return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de ver seus tickets?');
     }
 
@@ -52,12 +41,10 @@ export default class ObterTicketsDialog extends ComponentDialog {
         // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
         if (members[0].userPrincipalName) {
-            userEmail = members[0].userPrincipalName
-        }
         
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
-            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${userEmail}`,
+            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${members[0].userPrincipalName}`,
             {
                 headers: {
                     "Accept":"application/json",
@@ -114,10 +101,13 @@ export default class ObterTicketsDialog extends ComponentDialog {
             }
         }`);
 
+        
+
 
         await stepContext.context.sendActivity({ attachments: [myCard] });
 
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😀👍");
+    }
         return await stepContext.endDialog();
 
     } else {

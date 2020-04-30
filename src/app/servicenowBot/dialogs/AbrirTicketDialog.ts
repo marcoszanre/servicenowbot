@@ -49,12 +49,10 @@ export default class AbrirTicketDialog extends ComponentDialog {
         // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
         if (members[0].userPrincipalName) {
-            userEmail = members[0].userPrincipalName
-        }
 
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
-            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${userEmail}`,
+            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${members[0].userPrincipalName}`,
             {
                 headers: {
                     "Accept":"application/json",
@@ -166,6 +164,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
         await stepContext.context.sendActivity({ attachments: [ticketCard] } );
 
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😀");
+        }
         return await stepContext.endDialog();
     }
 
