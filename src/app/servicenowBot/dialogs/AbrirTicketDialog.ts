@@ -1,14 +1,12 @@
 import { DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
 import { ActivityTypes, CardFactory, TeamsInfo } from "botbuilder";
 
-const fs = require('fs');
 const axios = require('axios');
 const TEXT_PROMPT = 'TEXT_PROMPT';
 const CONFIRM_PROMPT = 'CONFIRM_PROMPT'
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const servicenowInstance = process.env.SERVICE_NOW_INSTANCE || "bypass string error check"
 const servicenowCredentials = process.env.SERVICE_NOW_CREDENTIALS || "bypass string error check";
-let userEmail: string;
 
 export default class AbrirTicketDialog extends ComponentDialog {
     constructor(dialogId: string) {
@@ -166,11 +164,6 @@ export default class AbrirTicketDialog extends ComponentDialog {
         await stepContext.context.sendActivity("Até a próxima e obrigado! 😀");
         }
         return await stepContext.endDialog();
-    }
-
-    encodeBase64(path) {
-        const bitmap = fs.readFileSync(path);
-        return new Buffer(bitmap).toString('base64')
     }
     
 }

@@ -1,7 +1,6 @@
 import { DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
 import { ActivityTypes, CardFactory } from "botbuilder";
 
-const fs = require('fs');
 const axios = require('axios');
 const CONFIRM_PROMPT = 'CONFIRM_PROMPT';
 const TEXT_PROMPT = 'TEXT_PROMPT';
@@ -78,7 +77,7 @@ export default class ObterTicketDialog extends ComponentDialog {
                                     {
                                         "type": "Image",
                                         "altText": "",
-                                        "url": `data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`,
+                                        "url": "https://media-exp1.licdn.com/dms/image/C4E0BAQEA_U8R9KDIiQ/company-logo_200_200/0?e=2159024400&v=beta&t=9QRf4vsp1RyddCUQRCAbeqOyERdBllACIbVX8xZoo1w",
                                         "horizontalAlignment": "Left",
                                         "size": "Medium"
                                     }
@@ -145,11 +144,6 @@ export default class ObterTicketDialog extends ComponentDialog {
         await stepContext.context.sendActivity("Até a próxima e obrigado! 🙂");
         return await stepContext.endDialog();
         
-    }
-
-    encodeBase64(path) {
-        const bitmap = fs.readFileSync(path);
-        return new Buffer(bitmap).toString('base64')
     }
     
 }

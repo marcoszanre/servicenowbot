@@ -5,7 +5,6 @@ import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, Convers
 import AbrirTicketDialog from "./dialogs/AbrirTicketDialog";
 import ObterTicketsDialog from "./dialogs/ObterTickets";
 import ObterTicketDialog from "./dialogs/ObterTicket";
-const fs = require('fs');
 
 // Initialize debug logging module
 const log = debug("msteams");
@@ -165,11 +164,6 @@ export class ServicenowBot extends TeamsActivityHandler {
    async checkTenant(context: TurnContext){
        return context.activity.conversation.tenantId == tenantID
    }
-
-    encodeBase64(path) {
-        const bitmap = fs.readFileSync(path);
-        return new Buffer(bitmap).toString('base64')
-    }
 
 
 }

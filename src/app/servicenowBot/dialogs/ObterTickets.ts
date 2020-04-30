@@ -1,13 +1,11 @@
 import { DialogTurnResult, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
 import { ActivityTypes, Attachment, TeamsInfo } from "botbuilder";
 
-const fs = require('fs');
 const axios = require('axios');
 const CONFIRM_PROMPT = 'CONFIRM_PROMPT'
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const servicenowInstance = process.env.SERVICE_NOW_INSTANCE || "bypass string error check"
 const servicenowCredentials = process.env.SERVICE_NOW_CREDENTIALS || "bypass string error check";
-let userEmail: string;
 
 export default class ObterTicketsDialog extends ComponentDialog {
     constructor(dialogId: string) {
@@ -69,8 +67,6 @@ export default class ObterTicketsDialog extends ComponentDialog {
 
         const ticketsList = ticketsListGetRequest.data.result;
 
-        await stepContext.context.sendActivity( ticketsList[0].short_description );
-
         let items: Array<any> = [];
         ticketsList.forEach(async ticketList => {
             let obj = {
@@ -119,11 +115,6 @@ export default class ObterTicketsDialog extends ComponentDialog {
     }
 
     };
-
-    encodeBase64(path) {
-        const bitmap = fs.readFileSync(path);
-        return new Buffer(bitmap).toString('base64')
-    }
     
     
 }
