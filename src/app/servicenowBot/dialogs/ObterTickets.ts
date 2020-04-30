@@ -26,6 +26,18 @@ export default class ObterTicketsDialog extends ComponentDialog {
     async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> { 
         await stepContext.context.sendActivity("Envie 'cancelar' a qualquer momento para retornar ao início, ok? ✔");   
         await stepContext.context.sendActivities([{type:  ActivityTypes.Typing}]);    
+
+        let members = await TeamsInfo.getMembers(stepContext.context);
+        if (members[0].userPrincipalName) {
+            await stepContext.context.sendActivity( members[0].userPrincipalName );
+        }
+
+        if (members[0].email) {
+            await stepContext.context.sendActivity( members[0].email );
+        }
+
+        
+
         return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de ver seus tickets?');
     }
 
