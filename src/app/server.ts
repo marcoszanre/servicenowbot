@@ -41,7 +41,7 @@ express.use(morgan("tiny"));
 // express.use(compression());
 
 // Add /scripts and /assets as static folders
-express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
+// express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
 express.use("/assets", Express.static(path.join(__dirname, "web/assets")));
 
 // routing for bots, connectors and incoming web hooks - based on the decorators

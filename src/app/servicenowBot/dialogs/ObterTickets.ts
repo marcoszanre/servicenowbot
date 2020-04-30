@@ -1,6 +1,7 @@
 import { DialogTurnResult, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
 import { ActivityTypes, Attachment } from "botbuilder";
 
+const fs = require('fs');
 const axios = require('axios');
 const CONFIRM_PROMPT = 'CONFIRM_PROMPT'
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
@@ -62,11 +63,11 @@ export default class ObterTicketsDialog extends ComponentDialog {
 
         const ticketsList = ticketsListGetRequest.data.result;
 
-        var items: Array<any> = [];
+        let items: Array<any> = [];
         ticketsList.forEach(async ticketList => {
             let obj = {
                 type: 'resultItem',
-                icon: '../../web/assets/servicenowLogo.png',
+                icon: `data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`,
                 title: ticketList.number,
                 subtitle: `${ticketList.short_description}`,
                 tap: {
@@ -101,10 +102,17 @@ export default class ObterTicketsDialog extends ComponentDialog {
         return await stepContext.endDialog();
 
     } else {
+
         await stepContext.context.sendActivity("Combinado, até a próxima e obrigado! 😀👍");
             return await stepContext.endDialog();
     }
-        };
+
+    };
+
+    encodeBase64(path) {
+        const bitmap = fs.readFileSync(path);
+        return new Buffer(bitmap).toString('base64')
+    }
     
     
 }

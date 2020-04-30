@@ -5,6 +5,7 @@ import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, Convers
 import AbrirTicketDialog from "./dialogs/AbrirTicketDialog";
 import ObterTicketsDialog from "./dialogs/ObterTickets";
 import ObterTicketDialog from "./dialogs/ObterTicket";
+const fs = require('fs');
 
 // Initialize debug logging module
 const log = debug("msteams");
@@ -59,12 +60,14 @@ export class ServicenowBot extends TeamsActivityHandler {
 
             const dc = await this.dialogs.createContext(context);
 
+            // Cancel Dialog execution if user sends cancelar
             if (context.activity.text.startsWith("cancelar")) {
                 await dc.cancelAllDialogs();
             }
 
             const results = await dc.continueDialog();
 
+            // If there's no dialog running, run this
             if (results.status === DialogTurnStatus.empty) {
 
             switch (context.activity.type) {
@@ -84,6 +87,11 @@ export class ServicenowBot extends TeamsActivityHandler {
                     }  else if (text.startsWith("listar tickets")) {
 
                         await dc.beginDialog("listTicketsDialog");
+
+                    }  else if (text.startsWith("cancelar")) {
+
+                        await dc.context.sendActivity( "Entendido. Operação cancelada! 👍");
+                        await dc.context.sendActivity( "Por favor, em que posso ajudar?");
 
                     }  else {
 
@@ -113,17 +121,23 @@ export class ServicenowBot extends TeamsActivityHandler {
                     if (context.activity.membersAdded[idx].id === context.activity.recipient.id) {
 
                         const message = MessageFactory.carousel([
-                            CardFactory.heroCard('Teams Bots', ['../web/assets/teamsLogo.png'], [{
+                            CardFactory.heroCard('Teams Bots',
+                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/teamsLogo.png')}`, 'src/app/web/assets/teamsLogo.png']),
+                            [{
                                 type: 'openUrl',
                                 title: 'Bot Framework',
                                 value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots'
                             }]),
-                            CardFactory.heroCard('Service Now', ['../web/assets/servicenowLogo.png'], [{
+                            CardFactory.heroCard('Service Now', 
+                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`, 'src/app/web/assets/servicenowLogo.png']),
+                            [{
                                 type: 'openUrl',
                                 title: 'Service Now',
                                 value: 'https://developer.servicenow.com/dev.do'
                             }]),
-                            CardFactory.heroCard('Microsoft Teams', ['../web/assets/teamsLogo.png'], [{
+                            CardFactory.heroCard('Microsoft Teams',
+                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/teamsLogo.png')}`, 'src/app/web/assets/teamsLogo.png']),
+                            [{
                                 type: 'openUrl',
                                 title: 'Dev Platform',
                                 value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/'
@@ -151,6 +165,11 @@ export class ServicenowBot extends TeamsActivityHandler {
    async checkTenant(context: TurnContext){
        return context.activity.conversation.tenantId == tenantID
    }
+
+    encodeBase64(path) {
+        const bitmap = fs.readFileSync(path);
+        return new Buffer(bitmap).toString('base64')
+    }
 
 
 }
