@@ -92,6 +92,8 @@ export class ServicenowBot extends TeamsActivityHandler {
 
                         await dc.context.sendActivity( "Entendido. Operação cancelada! 👍");
                         await dc.context.sendActivity( "Por favor, em que posso ajudar?");
+                        await dc.context.sendActivity( context.activity.from.name );
+                        await dc.context.sendActivity( context.activity.from.id );
 
                     }  else {
 
