@@ -41,8 +41,6 @@ export default class ObterTicketsDialog extends ComponentDialog {
         // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
         if (members[0].userPrincipalName) {
-
-        await stepContext.context.sendActivity(members[0].userPrincipalName);
         
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
@@ -55,8 +53,6 @@ export default class ObterTicketsDialog extends ComponentDialog {
                         "Basic " + Buffer.from(servicenowCredentials).toString('base64')
                     )}
         });
-
-        await stepContext.context.sendActivity( servicenowSysID.data.result[0].sys_id);
 
         // Get tickets with the caller as the current user
         const ticketsListGetRequest = await axios.get(
@@ -79,7 +75,7 @@ export default class ObterTicketsDialog extends ComponentDialog {
         ticketsList.forEach(async ticketList => {
             let obj = {
                 type: 'resultItem',
-                icon: `data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`,
+                icon: 'https://media-exp1.licdn.com/dms/image/C4E0BAQEA_U8R9KDIiQ/company-logo_200_200/0?e=2159024400&v=beta&t=9QRf4vsp1RyddCUQRCAbeqOyERdBllACIbVX8xZoo1w',
                 title: ticketList.number,
                 subtitle: `${ticketList.short_description}`,
                 tap: {

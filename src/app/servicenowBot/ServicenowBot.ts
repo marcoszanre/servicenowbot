@@ -122,21 +122,21 @@ export class ServicenowBot extends TeamsActivityHandler {
 
                         const message = MessageFactory.carousel([
                             CardFactory.heroCard('Teams Bots',
-                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/teamsLogo.png')}`, 'src/app/web/assets/teamsLogo.png']),
+                            CardFactory.images(['https://broadviewacademy.ca/wp-content/uploads/2019/05/Microsoft-Teams-logo.png']),
                             [{
                                 type: 'openUrl',
                                 title: 'Bot Framework',
                                 value: 'https://docs.microsoft.com/en-us/microsoftteams/platform/bots/what-are-bots'
                             }]),
                             CardFactory.heroCard('Service Now', 
-                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`, 'src/app/web/assets/servicenowLogo.png']),
+                            CardFactory.images(['https://media-exp1.licdn.com/dms/image/C4E0BAQEA_U8R9KDIiQ/company-logo_200_200/0?e=2159024400&v=beta&t=9QRf4vsp1RyddCUQRCAbeqOyERdBllACIbVX8xZoo1w']),
                             [{
                                 type: 'openUrl',
                                 title: 'Service Now',
                                 value: 'https://developer.servicenow.com/dev.do'
                             }]),
                             CardFactory.heroCard('Microsoft Teams',
-                            CardFactory.images([`data:image/png;base64,${this.encodeBase64('src/app/web/assets/teamsLogo.png')}`, 'src/app/web/assets/teamsLogo.png']),
+                            CardFactory.images(['https://broadviewacademy.ca/wp-content/uploads/2019/05/Microsoft-Teams-logo.png']),
                             [{
                                 type: 'openUrl',
                                 title: 'Dev Platform',

@@ -99,7 +99,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
                                     {
                                         "type": "Image",
                                         "altText": "",
-                                        "url": `data:image/png;base64,${this.encodeBase64('src/app/web/assets/servicenowLogo.png')}`,
+                                        "url": "https://media-exp1.licdn.com/dms/image/C4E0BAQEA_U8R9KDIiQ/company-logo_200_200/0?e=2159024400&v=beta&t=9QRf4vsp1RyddCUQRCAbeqOyERdBllACIbVX8xZoo1w",
                                         "horizontalAlignment": "Left",
                                         "size": "Medium"
                                     }
