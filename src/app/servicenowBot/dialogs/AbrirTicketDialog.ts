@@ -48,7 +48,9 @@ export default class AbrirTicketDialog extends ComponentDialog {
 
         // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
-        members[0].userPrincipalName != undefined? userEmail = members[0].userPrincipalName: await stepContext.context.sendActivity( "Ops, erro 😒"); await stepContext.endDialog();
+        if (members[0].userPrincipalName) {
+            userEmail = members[0].userPrincipalName
+        }
 
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
