@@ -44,7 +44,7 @@ export class ServicenowBot extends TeamsActivityHandler {
         if (checkTenant) {
 
         this.onTurn(async (context: TurnContext, next): Promise<void> => {
-            if (this.checkTenant(context))
+            if (!this.checkTenant(context))
             {
                 // Not authorized tenant
                 await context.sendTraceActivity(`Not authorized`);
