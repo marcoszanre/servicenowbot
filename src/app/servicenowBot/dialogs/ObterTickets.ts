@@ -41,6 +41,8 @@ export default class ObterTicketsDialog extends ComponentDialog {
         // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
         if (members[0].userPrincipalName) {
+
+        await stepContext.context.sendActivity(members[0].userPrincipalName);
         
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
@@ -53,6 +55,8 @@ export default class ObterTicketsDialog extends ComponentDialog {
                         "Basic " + Buffer.from(servicenowCredentials).toString('base64')
                     )}
         });
+
+        await stepContext.context.sendActivity( servicenowSysID.data.result[0].sys_id);
 
         // Get tickets with the caller as the current user
         const ticketsListGetRequest = await axios.get(
@@ -68,6 +72,8 @@ export default class ObterTicketsDialog extends ComponentDialog {
 
 
         const ticketsList = ticketsListGetRequest.data.result;
+
+        await stepContext.context.sendActivity( ticketsList[0].short_description );
 
         let items: Array<any> = [];
         ticketsList.forEach(async ticketList => {
