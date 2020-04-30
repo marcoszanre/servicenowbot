@@ -1,7 +1,7 @@
 import { BotDeclaration } from "express-msteams-host";
 import * as debug from "debug";
 import { DialogSet, DialogState, DialogTurnStatus } from "botbuilder-dialogs";
-import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory, ContactRelationUpdateActionTypes, MessageReactionTypes, TeamsInfo } from "botbuilder";
+import { StatePropertyAccessor, CardFactory, TurnContext, MemoryStorage, ConversationState, ActivityTypes, TeamsActivityHandler, MessageFactory } from "botbuilder";
 import AbrirTicketDialog from "./dialogs/AbrirTicketDialog";
 import ObterTicketsDialog from "./dialogs/ObterTickets";
 import ObterTicketDialog from "./dialogs/ObterTicket";
@@ -91,13 +91,7 @@ export class ServicenowBot extends TeamsActivityHandler {
                     }  else if (text.startsWith("cancelar")) {
 
                         await dc.context.sendActivity( "Entendido. Operação cancelada! 👍");
-                        await dc.context.sendActivity( "Por favor, em que posso ajudar?");
-                        
-                        const member = await TeamsInfo.getMembers(context);
-                        member.forEach(async element => {
-                            await dc.context.sendActivity( JSON.stringify(member).toString() );
-                        });
-                        
+                        await dc.context.sendActivity( "Por favor, em que posso ajudar?");                        
 
                     }  else {
 

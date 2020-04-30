@@ -1,5 +1,5 @@
 import { DialogTurnResult, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
-import { ActivityTypes, Attachment } from "botbuilder";
+import { ActivityTypes, Attachment, TeamsInfo } from "botbuilder";
 
 const fs = require('fs');
 const axios = require('axios');
@@ -36,9 +36,12 @@ export default class ObterTicketsDialog extends ComponentDialog {
         await stepContext.context.sendActivity( "👍 Claro, seguem seus tickets abaixo:" );
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
 
+        let members = await TeamsInfo.getMembers(stepContext.context);
+        let userEmail = members[0].email;
+        
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(
-            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${stepContext.context.activity.from.id}`,
+            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${userEmail}`,
             {
                 headers: {
                     "Accept":"application/json",
