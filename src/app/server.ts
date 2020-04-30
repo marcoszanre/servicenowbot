@@ -4,8 +4,6 @@ import * as path from "path";
 import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
-import * as compression from "compression";
-
 
 
 // Initialize debug logging module
@@ -16,7 +14,6 @@ log(`Initializing Microsoft Teams Express hosted App...`);
 // Initialize dotenv, to use .env file settings if existing
 // tslint:disable-next-line:no-var-requires
 require("dotenv").config();
-
 
 
 // The import of components has to be done AFTER the dotenv config
@@ -41,7 +38,7 @@ express.set("views", path.join(__dirname, "/"));
 express.use(morgan("tiny"));
 
 // Add compression - uncomment to remove compression
-express.use(compression());
+// express.use(compression());
 
 // Add /scripts and /assets as static folders
 express.use("/scripts", Express.static(path.join(__dirname, "web/scripts")));
@@ -59,9 +56,9 @@ express.use(MsTeamsPageRouter({
 }));
 
 // Set default web page
-express.use("/", Express.static(path.join(__dirname, "web/"), {
-    index: "index.html"
-}));
+// express.use("/", Express.static(path.join(__dirname, "web/"), {
+//     index: "index.html"
+// }));
 
 // Set the port
 express.set("port", port);

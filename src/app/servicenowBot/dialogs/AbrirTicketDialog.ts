@@ -1,11 +1,12 @@
-import { Dialog, DialogContext, DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext, ChoiceFactory, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
-import { ActionTypes, ActivityTypes, CardFactory } from "botbuilder";
+import { DialogTurnResult, TextPrompt, WaterfallDialog, WaterfallStepContext, ComponentDialog, ConfirmPrompt } from "botbuilder-dialogs";
+import { ActivityTypes, CardFactory } from "botbuilder";
 
 const axios = require('axios');
-const qs = require('qs');
 const TEXT_PROMPT = 'TEXT_PROMPT';
 const CONFIRM_PROMPT = 'CONFIRM_PROMPT'
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
+const servicenowInstance = process.env.SERVICE_NOW_INSTANCE || "bypass string error check"
+const servicenowCredentials = process.env.SERVICE_NOW_CREDENTIALS || "bypass string error check";
 
 export default class AbrirTicketDialog extends ComponentDialog {
     constructor(dialogId: string) {
@@ -24,7 +25,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
     }
 
     async confirmStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {  
-        await stepContext.context.sendActivity("Envie cancelar a qualquer momento para retornar ao início, ok? ✔");  
+        await stepContext.context.sendActivity("Envie 'cancelar' a qualquer momento para retornar ao início, ok? ✔");  
         return await stepContext.prompt(CONFIRM_PROMPT, 'Você gostaria de abrir um ticket?');
     }
 
@@ -32,7 +33,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
         if (stepContext.result) {
             return await stepContext.prompt(TEXT_PROMPT, 'Qual seria o erro por favor?');
         } else {
-            await stepContext.context.sendActivity("Até a próxima e obrigado!");
+            await stepContext.context.sendActivity("Até a próxima e obrigado! 👍");
              return await stepContext.endDialog();
         }
     }
@@ -40,25 +41,39 @@ export default class AbrirTicketDialog extends ComponentDialog {
     async responseStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
-        await stepContext.context.sendActivity( "Entendido! Vou abrir um ticket para o erro '" + stepContext.result + "'");
-
+        await stepContext.context.sendActivity( "Entendido! Vou abrir um ticket para o erro '" + stepContext.result + "', ok? 😉");
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
+
+        // Get Service Now SysID for User based on user UPN
+        const servicenowSysID = await axios.get(
+            `https://${servicenowInstance}.service-now.com/api/now/v2/table/sys_user?sysparm_limit=1&email=${stepContext.context.activity.from.id}`,
+            {
+                headers: {
+                    "Accept":"application/json",
+                    "Content-Type":"application/json",
+                    "Authorization": (
+                        "Basic " + Buffer.from(servicenowCredentials).toString('base64')
+                    )}
+        });
         
+        // Create a new ticket ID with the user as caller in Service Now
         const ticketsListPostRequest = await axios({
             method: 'post',
-            url: 'https://dev88189.service-now.com/api/now/v2/table/incident',
+            url: `https://${servicenowInstance}.service-now.com/api/now/v2/table/incident`,
             data: {
-                short_description: stepContext.result
+                short_description: stepContext.result,
+                caller_id: servicenowSysID.data.result[0].sys_id
             },
             headers: {
                 "Accept":"application/json",
                 "Content-Type":"application/json",
                 "Authorization": (
-                    "Basic " + Buffer.from("admin:Office365").toString('base64')
+                    "Basic " + Buffer.from(servicenowCredentials).toString('base64')
                 )
             }
         });
 
+        // Build Card for response
         let ticketCard = CardFactory.adaptiveCard(
             {
                 "type": "AdaptiveCard",
@@ -78,7 +93,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
                                     {
                                         "type": "Image",
                                         "altText": "",
-                                        "url": "https://store-images.s-microsoft.com/image/apps.38465.c7644961-96fb-4a94-b271-37687f682ccb.eec30b06-7df1-4c5c-948c-37df2598f39f.3a46fe3c-57fc-4ece-adb7-73587bd0bc1b.png",
+                                        "url": "../../web/assets/servicenowLogo.png",
                                         "horizontalAlignment": "Left",
                                         "size": "Medium"
                                     }
@@ -132,7 +147,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
                     {
                         "type": "Action.OpenUrl",
                         "title": "Abrir",
-                        "url": `https://dev88189.service-now.com/nav_to.do?uri=incident.do?sys_id=${ticketsListPostRequest.data.result.sys_id}`
+                        "url": `https://${servicenowInstance}.service-now.com/nav_to.do?uri=incident.do?sys_id=${ticketsListPostRequest.data.result.sys_id}`
                     }
                 ],
                 "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -142,8 +157,7 @@ export default class AbrirTicketDialog extends ComponentDialog {
 
         await stepContext.context.sendActivity({ attachments: [ticketCard] } );
 
-        // await stepContext.context.sendActivity(`Ticket ${ticketsListPostRequest.data.result.number} criado com sucesso`);
-        await stepContext.context.sendActivity("Até a próxima e obrigado! 😜");
+        await stepContext.context.sendActivity("Até a próxima e obrigado! 😀");
         return await stepContext.endDialog();
     }
     
