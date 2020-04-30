@@ -1,9 +1,6 @@
-# servicenow - Microsoft Teams App
+# Sample App - Microsoft Teams Service Now Bot
 
-Generate a Microsoft Teams application.
-
-TODO: Add your documentation here
-
+This is a sample app that connects
 ## Getting started with Microsoft Teams Apps development
 
 Head on over to [Microsoft Teams official documentation](https://developer.microsoft.com/en-us/microsoft-teams) to learn how to build Microsoft Teams Tabs or the [Microsoft Teams Yeoman generator Wiki](https://github.com/PnP/generator-teams/wiki) for details on how this solution is set up.
