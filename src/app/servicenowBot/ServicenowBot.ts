@@ -41,9 +41,9 @@ export class ServicenowBot extends TeamsActivityHandler {
         this.dialogs.add(new ObterTicketDialog("getTicketDialog"));
         
         // Confirm request comes from a valid tenant if checkTenant is true
-        if (checkTenant) {
-
         this.onTurn(async (context: TurnContext, next): Promise<void> => {
+            
+            if (checkTenant) {
             if (!this.checkTenant(context))
             {
                 // Not authorized tenant
@@ -52,9 +52,9 @@ export class ServicenowBot extends TeamsActivityHandler {
                 // Authorized tenant, continue
                 await next();
             }
+        }
         });
 
-        }
 
         this.onMessage(async (context: TurnContext): Promise<void> => {   
 
