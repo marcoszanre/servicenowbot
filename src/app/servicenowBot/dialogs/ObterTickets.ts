@@ -7,6 +7,7 @@ const CONFIRM_PROMPT = 'CONFIRM_PROMPT'
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 const servicenowInstance = process.env.SERVICE_NOW_INSTANCE || "bypass string error check"
 const servicenowCredentials = process.env.SERVICE_NOW_CREDENTIALS || "bypass string error check";
+let userEmail: string;
 
 export default class ObterTicketsDialog extends ComponentDialog {
     constructor(dialogId: string) {
@@ -36,8 +37,9 @@ export default class ObterTicketsDialog extends ComponentDialog {
         await stepContext.context.sendActivity( "👍 Claro, seguem seus tickets abaixo:" );
         await stepContext.context.sendActivity({type:  ActivityTypes.Typing});
 
+        // Get Teams user user principal name
         let members = await TeamsInfo.getMembers(stepContext.context);
-        let userEmail = members[0].email;
+        members[0].userPrincipalName != undefined? userEmail = members[0].userPrincipalName: await stepContext.context.sendActivity( "Ops, erro 😒"); await stepContext.endDialog();
         
         // Get Service Now SysID for User based on user UPN
         const servicenowSysID = await axios.get(

@@ -93,9 +93,6 @@ export class ServicenowBot extends TeamsActivityHandler {
                         await dc.context.sendActivity( "Entendido. Operação cancelada! 👍");
                         await dc.context.sendActivity( "Por favor, em que posso ajudar?");                        
 
-                        let members = await TeamsInfo.getMembers(context);
-                        members[0].userPrincipalName != undefined? await dc.context.sendActivity( members[0].userPrincipalName ): await dc.context.sendActivity( "Ops, erro 😒");
-
                     }  else {
 
                         const message = MessageFactory.attachment(
